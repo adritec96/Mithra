@@ -17,7 +17,6 @@ public class initAgentSsh {
 
 
     public static void main(String[] args) {
-        String pepe;
         String hostName = "";
         String hostIp = "";
         Config config = new Config(); ////////////////////////////////////////////////////////  mirar forma de no implejmentarlo asi.. y ponerlo con unos valores por defecto o algo.
@@ -44,7 +43,7 @@ public class initAgentSsh {
             // Leemos el archivo de configuracion:
             String cadena;
             StringBuilder archivo = new StringBuilder();
-            FileReader f = new FileReader("src/myConfig.json"); ////////////////////////////////////////////////////// Abra que cambiarlo de ubicacion en algún momento.
+            FileReader f = new FileReader("src/myConfig.json"); ////////////////////////////////// Abra que cambiarlo de ubicacion en algún momento.
             BufferedReader b = new BufferedReader(f);
             while((cadena = b.readLine())!=null) {
                 archivo.append(cadena);
@@ -61,7 +60,7 @@ public class initAgentSsh {
 
         
         
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  terminar primero el server!!!
+        //////////////////////////////////////////////////////////////////////////////////  terminar primero el server!!!
         // Realizamos el inicio del agente: 
         jade.core.Runtime rt = jade.core.Runtime.instance();
         Profile p = new ProfileImpl();

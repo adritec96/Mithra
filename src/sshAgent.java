@@ -12,7 +12,7 @@ import java.io.File;
  * @author Adrian Ruiz Lopez
  */
 public class sshAgent extends Agent {
-    protected File sshFile;           // Archivo SSH que va a usar el agente.
+    protected File sshFile;         // Archivo SSH que va a usar el agente.
     private LogRepository dlogger;  // Sistema de Log del agente.
     private String pathLogFile;     // Direccion del archivo de log del agente.
     private String pathSshFile;     // Direccion del archivo de SSH del agente.
@@ -24,30 +24,29 @@ public class sshAgent extends Agent {
         // Obtenemos el nombre del agente para el log
         String[] nameIP = getName().split("@");
         this.name = nameIP[0];
-        
-        
+
         // Obtenemos los parametros del agente.
         if( !obtenerParametros() ){
             System.out.println("ERROR --> Obtencion de Argumentos incorrecto.");
             System.exit(1);
         }
-        
+
         // Iniciamos el sistema de log:
         if( !iniciarLogger(pathLogFile) ){
             System.out.println("ERROR --> Inicio de Logger incorrecto.");
             System.exit(1);
         }
-        
+
         // Register Service Agent in Platform:
         if( !registrar("ssh") ){
             System.out.println("ERROR --> Registro del agente incorrecto.");
             System.exit(1);
         }
-        
+
 
         // Añadimos el comportamiento principal:
         addBehaviour( new ObserverFileSSH(this,2000) );
-        
+
         
     }
     
@@ -82,10 +81,9 @@ public class sshAgent extends Agent {
         return result;
    
     }// Fin funcion obtenerParametros
-    
-    
-    
-    
+
+
+
     protected boolean registrar(String rol){
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
@@ -100,10 +98,9 @@ public class sshAgent extends Agent {
             log("Registro completado correctamente con el ROL=\""+rol+"\"");
             return true;
         }catch(Exception e){
-            log("ERROR --> No se pudo registar al agente." + e);
+            log("ERROR --> No se pudo regista al agente." + e);
             return false;
         }
-        
     }// Fin funcion de registrar.
     
     
