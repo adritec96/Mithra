@@ -24,7 +24,7 @@ public class LocalLogRepository implements LogRepository{
     
     public LocalLogRepository(String path, String file) {
         filename = path+file;
-        valid = false;    
+        valid = false;
     }
     
    
@@ -33,31 +33,24 @@ public class LocalLogRepository implements LogRepository{
         return valid;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////// se puede arreglar este metodo y ponerlo con condiciones de if negadas.
+
     @Override
     public boolean Init()  {
-        File file;
+        File file = new File(filename);
 
-        file = new File(filename);
-        if (file != null)  ////////////////////////////////////////////////// me dice que esto nunca va a ser null
-            if (file.exists())
-                if (file.isFile())
-                    return (valid = true);    // Fichero existe
-                else
-                    return false;   // Es Directorio
-            else   {
-                try {
-                     if( file.createNewFile() ){
-                         return (valid=true); // Fichero nuevo OK
-                     }else{
-                         return false;
-                     }
-                } catch (IOException ex) {
-                    return false;   // Fichero nuevo MAL
-                }
+        if( file == null ) return false;                        // FALSE: fichero null, se ha producido un error
+        if( file.exists() ){
+            if( !file.isFile() ) return false;                  // FALSE: es un directorio
+            return (valid=true);                                // TRUE: Fichero existe!
+        }else{
+            try {
+                if( !file.createNewFile() ) return false;       // FALSE: fichero no se ha podido crear
+                return (valid=true);                            // TRUE: fichero creado correctamente
+            }catch (IOException ex){
+                return false;                                   // FALSE: error del SO al crear archivo
             }
-        else
-           return false;            // null
+        }
+
     }
     
     @Override
