@@ -1,3 +1,5 @@
+package Mithra.utils;
+
 /**
  *
  * @author adrij

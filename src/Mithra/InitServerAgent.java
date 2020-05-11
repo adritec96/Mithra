@@ -1,9 +1,14 @@
+package Mithra;
 
-import com.google.gson.*;
+import Mithra.core.ServerAgent;
+import Mithra.hostFile.sendHostFile;
+import Mithra.utils.Config;
+import com.google.gson.Gson;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.InetAddress;
@@ -13,71 +18,71 @@ import java.net.InetAddress;
  *
  * @author adrij
  */
-public class initAgentSsh {
+public class InitServerAgent {
 
 
     public static void main(String[] args) {
-        String hostName = "";
-        String hostIp = "";
+        String hostName = null;
+        String hostIp = null;
+        String pathConfigFile;
         Config config = new Config(); ////////////////////////////////////////////////////////  mirar forma de no implejmentarlo asi.. y ponerlo con unos valores por defecto o algo.
         
-        // Obtenemos el nombre del equipo y la direccion ip
+        // Getting name and ip host:
         try{
             InetAddress address = InetAddress.getLocalHost();
             hostName = address.getHostName();
             hostIp = address.getHostAddress();
         }catch(Exception e){
-            System.out.println("ERROR: No se ha podido obtener el  Hostname/Ip");
+            System.out.println("ERROR: Hostname or ip not found.");
             System.exit(1);
         }
         
-       // Realizamos la captacion de argumentos:
+       // Caption to arguments:
         if( args == null || args.length != 1 ){
             System.out.println("ERROR: Argumentos erroneos");
             System.exit(1);
         }
-        
-        
-        // Lectura del archivo de configuración:
+        pathConfigFile = args[0];
+
+
+        // read configuration file:
         try{
-            // Leemos el archivo de configuracion:
             String cadena;
             StringBuilder archivo = new StringBuilder();
-            FileReader f = new FileReader("src/myConfig.json"); ////////////////////////////////// Abra que cambiarlo de ubicacion en algún momento.
+            FileReader f = new FileReader(pathConfigFile);
             BufferedReader b = new BufferedReader(f);
             while((cadena = b.readLine())!=null) {
                 archivo.append(cadena);
             }
             b.close();
-            // Serializamos desde json:
+            // Serialised from json file:
             Gson gson = new Gson();
             config = gson.fromJson( archivo.toString() , Config.class);
         }catch(Exception e){
-            System.out.println("ERROR: No se ha podido leer el archivo de configuracion.\n" + e);
+            System.out.println("ERROR -> Can't read configuration file.");
             System.exit(1);
         }
-        
 
-        
-        
-        //////////////////////////////////////////////////////////////////////////////////  terminar primero el server!!!
-        // Realizamos el inicio del agente: 
-        jade.core.Runtime rt = jade.core.Runtime.instance();
-        Profile p = new ProfileImpl();
-        p.setParameter(Profile.PLATFORM_ID, config.PLATFORM_ID  );
-        p.setParameter(Profile.MAIN_HOST, config.MAIN_HOST );
+
+
+        // START SERVER:
+        Profile p = new ProfileImpl(false);
+        p.setParameter(Profile.PLATFORM_ID, config.PLATFORM_ID );
+        p.setParameter(Profile.MAIN_HOST, hostIp );
         p.setParameter(Profile.LOCAL_HOST, hostIp );
         p.setParameter(Profile.MAIN_PORT, config.MAIN_PORT );
+        p.setParameter(Profile.LOCAL_PORT,  config.MAIN_PORT );
         p.setParameter(Profile.GUI, "true");
-        ContainerController cc = rt.createAgentContainer(p);
-        AgentController ac;
-        Object[] argumentos = { config.AGENT_LOG_FILE , config.SSH_FILE };
-        try{
-            ac = cc.createNewAgent("sshAgent-"+hostName, sshAgent.class.getName() , argumentos );
+        try {
+            ServerAgent serverAgent = new ServerAgent(config.AGENT_LOG_FILE);
+            serverAgent.addBehaviour( new sendHostFile(serverAgent,"hosts"));
+            ContainerController containerController = jade.core.Runtime.instance().createMainContainer(p);
+            AgentController ac = containerController.acceptNewAgent("serverAgent-" + hostName, serverAgent);
             ac.start();
-        }catch( Exception e){
-            System.out.println("No se ha podido iniciar el agente \""+hostName+"\"");
+        }catch (Exception e){
+            System.out.println("Error al iniciar el server:\n"+e);
         }
+
         
     }
 }
