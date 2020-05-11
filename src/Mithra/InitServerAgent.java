@@ -25,7 +25,7 @@ public class InitServerAgent {
         String hostName = null;
         String hostIp = null;
         String pathConfigFile;
-        Config config = new Config(); ////////////////////////////////////////////////////////  mirar forma de no implejmentarlo asi.. y ponerlo con unos valores por defecto o algo.
+        Config config = null;
         
         // Getting name and ip host:
         try{
@@ -58,6 +58,7 @@ public class InitServerAgent {
             // Serialised from json file:
             Gson gson = new Gson();
             config = gson.fromJson( archivo.toString() , Config.class);
+            assert( config != null);
         }catch(Exception e){
             System.out.println("ERROR -> Can't read configuration file.");
             System.exit(1);

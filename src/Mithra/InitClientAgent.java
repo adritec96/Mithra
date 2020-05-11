@@ -25,7 +25,7 @@ public class InitClientAgent {
         String hostName = "";
         String hostIp = "";
         String pathConfigFile;
-        Config config = new Config(); ////////////////////////////////////////////////////////  mirar forma de no implejmentarlo asi.. y ponerlo con unos valores por defecto o algo.
+        Config config = null;
         
         // Obtenemos el nombre del equipo y la direccion ip
         try{
@@ -59,6 +59,7 @@ public class InitClientAgent {
             // Serializamos desde json:
             Gson gson = new Gson();
             config = gson.fromJson( archivo.toString() , Config.class);
+            assert(config != null);
         }catch(Exception e){
             System.out.println("ERROR: No se ha podido leer el archivo de configuracion.\n" + e);
             System.exit(1);
