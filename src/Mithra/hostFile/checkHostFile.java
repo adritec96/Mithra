@@ -19,6 +19,7 @@ public class checkHostFile extends TickerBehaviour {
     private final ClientAgent agn;
     private final String pathHostFile;
 
+
     public checkHostFile(ClientAgent agent, int milliseconds,String pathHostFile) {
         super(agent,milliseconds);
         this.milliseconds = milliseconds;
@@ -31,8 +32,8 @@ public class checkHostFile extends TickerBehaviour {
     public void onTick() {
         agn.log("checkHostFile","start checking hostFile");
         // Refresh Server names:
-        AID[] serversOnline = refreshServerNames();
-        if( serversOnline == null) return;
+        AID[] serversOnline = agn.askAgents("server","checkHostFile");
+        if( serversOnline == null || serversOnline.length < 1) return;
 
         AID serverSelected = serversOnline[0];               /////////////////////////////////  Ahora mismo solo lo enviamos al primero. o implementar un call of proposal.
 
@@ -70,14 +71,7 @@ public class checkHostFile extends TickerBehaviour {
     }// end OnTick
 
 
-    private AID[] refreshServerNames(){
-        AID[] serversHostFile = agn.askAgents("server","checkHostFile");
-        if( serversHostFile == null || serversHostFile.length < 1 ){
-            agn.log("checkHostFile","ERROR -> At least 1 server is required ");
-            return null;
-        }
-        return serversHostFile;
-    }
+
 
     private void requestContentHostFile(AID serverSelected){
         agn.log("checkHostFile","Request Content Host File");
