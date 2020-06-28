@@ -1,6 +1,6 @@
 package Mithra;
 
-import Mithra.core.ServerAgent;
+import Mithra.core.MithraAgent;
 import Mithra.hostFile.sendHostFile;
 import Mithra.utils.Config;
 import com.google.gson.Gson;
@@ -75,7 +75,7 @@ public class InitServerAgent {
         p.setParameter(Profile.LOCAL_PORT,  config.MAIN_PORT );
         p.setParameter(Profile.GUI, "true");
         try {
-            ServerAgent serverAgent = new ServerAgent(config.AGENT_LOG_FILE);
+            MithraAgent serverAgent = new MithraAgent(config.AGENT_LOG_FILE);
             serverAgent.addBehaviour( new sendHostFile(serverAgent,"hosts"));
             ContainerController containerController = jade.core.Runtime.instance().createMainContainer(p);
             AgentController ac = containerController.acceptNewAgent("serverAgent-" + hostName, serverAgent);

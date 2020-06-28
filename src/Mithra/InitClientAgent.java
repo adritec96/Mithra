@@ -1,6 +1,7 @@
 package Mithra;
 
-import Mithra.core.ClientAgent;
+
+import Mithra.core.MithraAgent;
 import com.google.gson.*;
 import Mithra.hostFile.checkHostFile;
 import Mithra.hostFile.reciveNewHostFile;
@@ -80,7 +81,7 @@ public class InitClientAgent {
         ContainerController containerController = rt.createAgentContainer(p);
         AgentController agentController;
         try{
-            ClientAgent clientAgent = new ClientAgent(config.AGENT_LOG_FILE);
+            MithraAgent clientAgent = new MithraAgent(config.AGENT_LOG_FILE);
             clientAgent.addBehaviour( new checkHostFile(clientAgent,15000,"hosts2"));  ///////////////////////////////////// ponerlos en el Config el nombre del archivo
             clientAgent.addBehaviour( new reciveNewHostFile(clientAgent,"hosts2"));
             agentController = containerController.acceptNewAgent("clientAgent-"+hostName,clientAgent);

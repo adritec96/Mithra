@@ -1,6 +1,7 @@
 package Mithra.hostFile;
 
-import Mithra.core.ClientAgent;
+
+import Mithra.core.MithraAgent;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,10 +15,10 @@ import java.io.FileWriter;
 
 public class reciveNewHostFile extends CyclicBehaviour {
 
-    private final ClientAgent agn;
+    private final MithraAgent agn;
     private final String path;
 
-    public reciveNewHostFile(ClientAgent agn,String path) {
+    public reciveNewHostFile(MithraAgent agn,String path) {
         this.agn = agn;
         this.path = path;
         this.agn.addAgentService("client","replaceHostFile");

@@ -11,12 +11,12 @@ import Mithra.utils.LogRepository;
 
 import java.util.ArrayList;
 
-public abstract class MyJadeAgent extends Agent {
+public class MithraAgent extends Agent {
     private LogRepository log;                  // Object for  log repository.
     private final String pathLogFile;           // Path to log file.
     ArrayList<ServiceDescription> services;
 
-    public MyJadeAgent(String pathLogFile) {
+    public MithraAgent(String pathLogFile) {
         this.services = new ArrayList<>();
         this.pathLogFile = pathLogFile;
     }
@@ -28,6 +28,11 @@ public abstract class MyJadeAgent extends Agent {
         if( (log = startLogger(pathLogFile)) == null ){
             System.out.println("ERROR --> Start logger.");
             System.exit(1);
+        }
+        // Register Service Agent in Platform:
+        if( !subcribePlatform() ){
+            log("agent","ERROR --> Register agent in platform.");
+            takeDown();
         }
 
     }

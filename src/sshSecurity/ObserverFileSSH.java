@@ -1,6 +1,7 @@
 package sshSecurity;
 
-import Mithra.core.ClientAgent;
+
+import Mithra.core.MithraAgent;
 import jade.core.behaviours.TickerBehaviour;
 
 import java.io.*;
@@ -10,7 +11,7 @@ import java.io.*;
  * @author Adrián Ruiz Lopez
  */
 public class ObserverFileSSH extends TickerBehaviour {
-    private ClientAgent agent;
+    private MithraAgent agent;
     private int state;
     private static final int OBSERVANDO_FICHERO = 0;
     private static final int REACTIVAR_IPS = 1;
@@ -34,7 +35,7 @@ public class ObserverFileSSH extends TickerBehaviour {
 
 
 
-    public ObserverFileSSH(ClientAgent agn, int milisec) {
+    public ObserverFileSSH(MithraAgent agn, int milisec) {
         super(agn, milisec);
         this.agent = agn;
         //this. = agn.sshFile;      /////////////////////////// pongo en el behabiour los tipos File o los pongo en el tipo

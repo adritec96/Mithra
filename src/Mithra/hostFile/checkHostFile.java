@@ -1,6 +1,6 @@
 package Mithra.hostFile;
 
-import Mithra.core.ClientAgent;
+import Mithra.core.MithraAgent;
 import Mithra.utils.LectorFiles;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -16,11 +16,11 @@ import jade.lang.acl.MessageTemplate;
  */
 public class checkHostFile extends TickerBehaviour {
     private final int milliseconds;
-    private final ClientAgent agn;
+    private final MithraAgent agn;
     private final String pathHostFile;
 
 
-    public checkHostFile(ClientAgent agent, int milliseconds,String pathHostFile) {
+    public checkHostFile(MithraAgent agent, int milliseconds, String pathHostFile) {
         super(agent,milliseconds);
         this.milliseconds = milliseconds;
         this.agn = agent;
@@ -38,6 +38,7 @@ public class checkHostFile extends TickerBehaviour {
         AID serverSelected = serversOnline[0];               /////////////////////////////////  Ahora mismo solo lo enviamos al primero. o implementar un call of proposal.
 
         // Request content Host File:
+        System.out.println("se pide el contenido al server");
         requestContentHostFile(serverSelected);
 
         // Wait Content Host File:
@@ -45,6 +46,7 @@ public class checkHostFile extends TickerBehaviour {
                 MessageTemplate.MatchSender(serverSelected)), MessageTemplate.MatchPerformative(ACLMessage.INFORM) );
         ACLMessage msg = agn.receive(mt);
         if( msg != null ){
+            System.out.println("contenido recibido.");
             // TransForm contain message to jsonObject
             Gson gson = new Gson();
             JsonArray jsonFileRemote = gson.fromJson(msg.getContent(),JsonArray.class);
@@ -55,12 +57,15 @@ public class checkHostFile extends TickerBehaviour {
             String  localFile = jsonFileLocal != null ? jsonFileLocal.toString() : null;
 
             // Check equal host file contain received and local contain
+            System.out.print("Resultado de la comparacion = ");
             if( localFile == null || remoteFile == null ){
                 agn.log("checkHostFile", "ERROR -> Error read local or remote file");
             }else if( !localFile.equals(remoteFile) ){
                 // if not are equals, send problem
+                System.out.println("Error, necesario avisar del error");
                 sendProblemToServer(msg);
             }else{
+                System.out.println("Correcto!");
                 agn.log("checkHostFile","Correct File!");
             }
 
@@ -69,9 +74,6 @@ public class checkHostFile extends TickerBehaviour {
         }
 
     }// end OnTick
-
-
-
 
     private void requestContentHostFile(AID serverSelected){
         agn.log("checkHostFile","Request Content Host File");
