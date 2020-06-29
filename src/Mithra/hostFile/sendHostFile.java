@@ -1,6 +1,5 @@
 package Mithra.hostFile;
 
-
 import Mithra.core.MithraAgent;
 import Mithra.utils.LectorFiles;
 import com.google.gson.JsonArray;
@@ -17,7 +16,7 @@ public class sendHostFile extends CyclicBehaviour {
     public sendHostFile(MithraAgent agn, String pathHostFile) {
         this.agn = agn;
         this.pathHostFile = pathHostFile;
-        this.agn.addAgentService("server","checkHostFile");
+        this.agn.addAgentService("checkHostFile");
     }
 
     @Override
@@ -29,7 +28,6 @@ public class sendHostFile extends CyclicBehaviour {
             switch (msg.getPerformative()){
                 // The client requests the content of the file:
                 case ACLMessage.QUERY_REF:
-                    System.out.println("Pedicion recibida, se envia el contenido del archivo host");
                     agn.log("sendHostFile","Message was received and the contents of the host file are sent");
                     ACLMessage reply = msg.createReply();
                     reply.setPerformative(ACLMessage.INFORM);
@@ -38,10 +36,9 @@ public class sendHostFile extends CyclicBehaviour {
                     break;
                 // The client has a problem in the file and it is necessary to send the other clients
                 case ACLMessage.REQUEST:
-                    System.out.println("Peticion recibida, se enviará el contenido a los otros agentes");
                     agn.log("sendHostFile","Message was received and notifications will be sent to all clients");
                     // Get clients:
-                    AID[] clientsHostFile = agn.askAgents("client","replaceHostFile");
+                    AID[] clientsHostFile = agn.getCandidates("replaceHostFile");
                     ACLMessage msgAll = new ACLMessage(ACLMessage.REQUEST);
                     msgAll.setConversationId("newHostFile");
                     // add all clients
@@ -50,7 +47,6 @@ public class sendHostFile extends CyclicBehaviour {
                     }
                     String contenido = getContentHostFile();
                     msgAll.setContent(contenido);
-                    System.out.println("SEVER ENVIA: " +  contenido );
                     agn.send(msgAll);
                     break;
                 default:
@@ -74,7 +70,5 @@ public class sendHostFile extends CyclicBehaviour {
             return null;
         }
     }
-
-
 
 }

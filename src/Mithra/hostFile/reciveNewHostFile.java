@@ -21,7 +21,7 @@ public class reciveNewHostFile extends CyclicBehaviour {
     public reciveNewHostFile(MithraAgent agn,String path) {
         this.agn = agn;
         this.path = path;
-        this.agn.addAgentService("client","replaceHostFile");
+        this.agn.addAgentService("replaceHostFile");
     }
 
     @Override
@@ -34,7 +34,6 @@ public class reciveNewHostFile extends CyclicBehaviour {
             agn.log("receiveNewHostFile","new file was received");
             Gson gson = new Gson();
             JsonArray newContentHostFile = gson.fromJson(msg.getContent(),JsonArray.class);
-            System.out.println("NUEVO HOST: "+ newContentHostFile.toString());
             sustituirArchivo(path,newContentHostFile);
         }else{
             block();
@@ -46,7 +45,6 @@ public class reciveNewHostFile extends CyclicBehaviour {
             BufferedWriter bw = new BufferedWriter(new FileWriter(path));
             for(JsonElement ele : newContentHostFile){
                 JsonObject obj = ele.getAsJsonObject();
-                System.out.println(obj.toString());
                 bw.write(obj.get("ip").getAsString() + " " + obj.get("domain").getAsString() + "\n" );
             }
             bw.close();
