@@ -72,11 +72,11 @@ public class InitClientAgent {
         // Start Client agent:
         jade.core.Runtime rt = jade.core.Runtime.instance();
         Profile p = new ProfileImpl();
-        p.setParameter(Profile.PLATFORM_ID, config.PLATFORM_ID  );
-        p.setParameter(Profile.MAIN_HOST, config.MAIN_HOST );
-        p.setParameter(Profile.LOCAL_HOST, hostIp );
-        p.setParameter(Profile.CONTAINER_NAME, hostName );
-        p.setParameter(Profile.MAIN_PORT, config.MAIN_PORT );
+        p.setParameter(Profile.PLATFORM_ID, config.PLATFORM_ID);
+        p.setParameter(Profile.MAIN_HOST, config.MAIN_HOST);
+        p.setParameter(Profile.LOCAL_HOST, hostIp);
+        p.setParameter(Profile.CONTAINER_NAME, hostName);
+        p.setParameter(Profile.MAIN_PORT, config.MAIN_PORT);
         p.setParameter(Profile.GUI, "true" );
         ContainerController containerController = rt.createAgentContainer(p);
         AgentController agentController;
@@ -84,6 +84,7 @@ public class InitClientAgent {
             MithraAgent clientAgent = new MithraAgent(config.AGENT_LOG_FILE);
             clientAgent.addBehaviour( new checkHostFile(clientAgent,15000,"hosts2"));  ///////////////////////////////////// ponerlos en el Config el nombre del archivo
             clientAgent.addBehaviour( new reciveNewHostFile(clientAgent,"hosts2"));
+
             agentController = containerController.acceptNewAgent("clientAgent-"+hostName,clientAgent);
             agentController.start();
         }catch( Exception e){

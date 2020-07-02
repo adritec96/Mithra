@@ -1,11 +1,11 @@
 package Mithra.hostFile;
 
 import Mithra.core.MithraAgent;
+import Mithra.core.MithraObserver;
 import Mithra.utils.LectorFiles;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import jade.core.AID;
-import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
@@ -13,15 +13,13 @@ import jade.lang.acl.MessageTemplate;
 /**
  * @author Adrián Ruiz Lopez
  */
-public class checkHostFile extends TickerBehaviour {
-    private final int milliseconds;
+public class checkHostFile extends MithraObserver {
     private final MithraAgent agn;
     private final String pathHostFile;
 
 
     public checkHostFile(MithraAgent agent, int milliseconds, String pathHostFile) {
         super(agent,milliseconds);
-        this.milliseconds = milliseconds;
         this.agn = agent;
         this.pathHostFile = pathHostFile;
     }

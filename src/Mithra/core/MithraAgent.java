@@ -9,7 +9,6 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import Mithra.utils.LocalLogRepository;
 import Mithra.utils.LogRepository;
-import jade.lang.acl.ACLMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -150,7 +149,7 @@ public class MithraAgent extends Agent {
      */
     protected LogRepository startLogger(String dir){
         LogRepository log = new LocalLogRepository(dir);
-        if (!log.Init()){
+        if (!log.init()){
             System.err.println("ERROR -> Start logger.");
             return null;
         }
@@ -164,7 +163,7 @@ public class MithraAgent extends Agent {
      */
     public void log(String subProccess, String message){
         if( !log.isValid() ) System.err.println("ERROR -> action \"log\" without starting logger.");
-        if ( !log.AddLog(subProccess,message) ) System.out.println("ERROR -> can't log message.");
+        if ( !log.addLog(subProccess,message) ) System.out.println("ERROR -> can't log message.");
     }
     /*
      * Metodo que se ejecuta al final de la vida del agente
@@ -211,6 +210,7 @@ public class MithraAgent extends Agent {
         return getListNamesAgents(template);
     }
 
+    public boolean isValid() { return true; } ////////////////////////////////////////////////////////////////////////////////
 
 
 

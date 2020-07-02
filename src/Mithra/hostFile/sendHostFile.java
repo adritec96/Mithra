@@ -1,14 +1,14 @@
 package Mithra.hostFile;
 
 import Mithra.core.MithraAgent;
+import Mithra.core.MithraService;
 import Mithra.utils.LectorFiles;
 import com.google.gson.JsonArray;
 import jade.core.AID;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class sendHostFile extends CyclicBehaviour {
+public class sendHostFile extends MithraService {
 
     private final MithraAgent agn;
     private final String pathHostFile;

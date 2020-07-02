@@ -2,18 +2,18 @@ package Mithra.hostFile;
 
 
 import Mithra.core.MithraAgent;
+import Mithra.core.MithraService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-public class reciveNewHostFile extends CyclicBehaviour {
+public class reciveNewHostFile extends MithraService {
 
     private final MithraAgent agn;
     private final String path;

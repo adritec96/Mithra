@@ -39,7 +39,7 @@ public class LocalLogRepository implements LogRepository {
 
 
     @Override
-    public boolean Init() {
+    public boolean init() {
         File file = new File(filename);
 
         if (file == null) return false;                        // FALSE: fichero null, se ha producido un error
@@ -58,7 +58,7 @@ public class LocalLogRepository implements LogRepository {
     }
 
     @Override
-    public boolean AddLog(String subProccess,String message) {
+    public boolean addLog(String subProccess,String message) {
 
         if( !valid ) return false;
 
