@@ -34,7 +34,9 @@ public class checkHostFile extends MithraObserver {
         // Si no se encuentran candidatos, se volverá a intenar..
         if( serversOnline == null || serversOnline.length < 1) return;
 
-        AID serverSelected = serversOnline[0];               /////////////////////////////////  Ahora mismo solo lo enviamos al primero. o implementar un call of proposal.
+        // Select a random Agent:
+        int random = (int) (Math.random() * serversOnline.length);
+        AID serverSelected = serversOnline[random];
 
         // Request content Host File:
         requestContentHostFile(serverSelected);
@@ -63,7 +65,6 @@ public class checkHostFile extends MithraObserver {
             }else{
                 agn.log("checkHostFile","Correct File!");
             }
-
         }else{
             block(); // block if the message not is received.
         }

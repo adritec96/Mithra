@@ -2,24 +2,19 @@ package Mithra.core;
 
 import jade.core.Profile;
 import jade.core.ProfileImpl;
-import java.net.InetAddress;
+import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
 import java.net.UnknownHostException;
-
-public class initPlatform {
-    private  String PLATFORM_ID;
-    private  String HOST_IP;
-    private  String PLATFORM_PORT;
+import java.util.Map;
 
 
-    public initPlatform(String platformId,String platformPort ) throws UnknownHostException {
-        PLATFORM_ID = platformId;
+public class initPlatform extends init {
+    protected  String PLATFORM_PORT;
+
+    public initPlatform(String platformId, String platformPort) throws UnknownHostException {
+        super(platformId);
         PLATFORM_PORT = platformPort;
-
-        // Get hostname and ip for the Computer
-        InetAddress address = InetAddress.getLocalHost();
-        HOST_IP = address.getHostAddress();
     }
-
 
     public void start(){
         // START SERVER:
@@ -31,9 +26,21 @@ public class initPlatform {
         p.setParameter(Profile.LOCAL_PORT,  PLATFORM_PORT );
         p.setParameter(Profile.GUI, "true");
         try {
-            jade.core.Runtime.instance().createMainContainer(p);
+            ContainerController containerController = jade.core.Runtime.instance().createMainContainer(p);
+            AgentController agentController;
+            for(Map.Entry<String,MithraAgent> entry : agents.entrySet()) {
+                try {
+                    agentController = containerController.acceptNewAgent( entry.getKey(), entry.getValue() );
+                    agentController.start();
+                } catch (Exception e) {
+                    System.out.println("ERROR -> Agent (" + entry.getValue().getName() + ") failed to start \"" + HOST_NAME + "\"");
+                }
+            }
         }catch (Exception e){
-            System.out.println("Error al iniciar el server:\n"+e);
+            System.out.println("Error Starting Agent Platform\n"+e);
         }
+
+
+
     }
 }

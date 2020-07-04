@@ -29,6 +29,7 @@ public class MithraAgent extends Agent {
     @Override
     protected void setup() {
         super.setup();
+        System.out.println("Iniciando agente " + getName());
         // Start log system:
         if( (log = startLogger(pathLogFile)) == null ){
             System.out.println("ERROR --> Start logger.");
