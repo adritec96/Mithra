@@ -14,6 +14,7 @@ public class sendHostFile extends MithraService {
     private final String pathHostFile;
 
     public sendHostFile(MithraAgent agn, String pathHostFile) {
+        super(agn);
         this.agn = agn;
         this.pathHostFile = pathHostFile;
         this.agn.addAgentService("checkHostFile");
@@ -28,7 +29,7 @@ public class sendHostFile extends MithraService {
             switch (msg.getPerformative()){
                 // The client requests the content of the file:
                 case ACLMessage.QUERY_REF:
-                    agn.log("sendHostFile","Message was received and the contents of the host file are sent");
+                    agn.log("sendHostFile","Received a request from "+ msg.getSender().getName() +" and send content");
                     ACLMessage reply = msg.createReply();
                     reply.setPerformative(ACLMessage.INFORM);
                     reply.setContent( getContentHostFile() );
@@ -36,7 +37,7 @@ public class sendHostFile extends MithraService {
                     break;
                 // The client has a problem in the file and it is necessary to send the other clients
                 case ACLMessage.REQUEST:
-                    agn.log("sendHostFile","Message was received and notifications will be sent to all clients");
+                    agn.log("sendHostFile","Received error and notifications will be sent to all clients");
                     // Get clients:
                     AID[] clientsHostFile = agn.getCandidates("replaceHostFile");
                     ACLMessage msgAll = new ACLMessage(ACLMessage.REQUEST);

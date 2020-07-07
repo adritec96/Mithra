@@ -10,10 +10,12 @@ public abstract class init {
     protected  String HOST_IP;
     protected  String HOST_NAME;
     protected  Map<String,MithraAgent> agents;
+    protected boolean gui;
 
     public init(String platformId) throws UnknownHostException {
         this.agents = new HashMap<>();
         PLATFORM_ID = platformId;
+        gui = false;
 
 
         // Get hostname and ip for the Computer
@@ -28,6 +30,12 @@ public abstract class init {
         }else{
             System.out.println("ERROR: Invalid Agent! please check agent");
         }
+    }
+
+    public void activeGui(){ this.gui = true;}
+
+    public void changeNamePlatform(String newName){
+        HOST_NAME = newName;
     }
 
     public boolean checkAgents(){

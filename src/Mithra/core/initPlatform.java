@@ -24,7 +24,7 @@ public class initPlatform extends init {
         p.setParameter(Profile.LOCAL_HOST, HOST_IP );
         p.setParameter(Profile.MAIN_PORT, PLATFORM_PORT );
         p.setParameter(Profile.LOCAL_PORT,  PLATFORM_PORT );
-        p.setParameter(Profile.GUI, "true");
+        if(gui) p.setParameter(Profile.GUI, "true");
         try {
             ContainerController containerController = jade.core.Runtime.instance().createMainContainer(p);
             AgentController agentController;

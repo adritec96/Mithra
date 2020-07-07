@@ -19,6 +19,7 @@ public class reciveNewHostFile extends MithraService {
     private final String path;
 
     public reciveNewHostFile(MithraAgent agn,String path) {
+        super(agn);
         this.agn = agn;
         this.path = path;
         this.agn.addAgentService("replaceHostFile");

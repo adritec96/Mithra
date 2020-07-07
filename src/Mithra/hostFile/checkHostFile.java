@@ -27,16 +27,16 @@ public class checkHostFile extends MithraObserver {
 
     @Override
     public void onTick() {
-        agn.log("checkHostFile","start checking hostFile");
+        agn.log("checkHostFile","Start checking host File");
         // Refresh Server names:
         AID[] serversOnline = agn.getCandidates("checkHostFile");
 
         // Si no se encuentran candidatos, se volverá a intenar..
         if( serversOnline == null || serversOnline.length < 1) return;
-
         // Select a random Agent:
         int random = (int) (Math.random() * serversOnline.length);
         AID serverSelected = serversOnline[random];
+
 
         // Request content Host File:
         requestContentHostFile(serverSelected);
@@ -60,6 +60,7 @@ public class checkHostFile extends MithraObserver {
             if( localFile == null || remoteFile == null ){
                 agn.log("checkHostFile", "ERROR -> Error read local or remote file");
             }else if( !localFile.equals(remoteFile) ){
+                agn.log("checkHostFile","ERROR -> Different content in hostFile, send error to server");
                 // if not are equals, send problem
                 sendProblemToServer(msg);
             }else{

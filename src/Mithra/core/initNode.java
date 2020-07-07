@@ -34,7 +34,7 @@ public class initNode extends init{
         p.setParameter(Profile.LOCAL_HOST, HOST_IP);
         p.setParameter(Profile.CONTAINER_NAME, HOST_NAME);
         p.setParameter(Profile.MAIN_PORT, SERVER_PORT);
-        p.setParameter(Profile.GUI, "true" );
+        if(gui) p.setParameter(Profile.GUI, "true" );
         ContainerController containerController = rt.createAgentContainer(p);
         AgentController agentController;
 
